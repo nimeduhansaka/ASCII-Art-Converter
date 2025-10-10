@@ -475,7 +475,7 @@ const App = () => {
                 </div>
             )}
 
-            <div className="w-full max-w-6xl mx-auto">
+            <div className="w-full max-w-6xl mx-auto mt-2">
                 <header className={`text-center mb-8 ${!showPreloader ? 'animate-popup delay-1' : 'opacity-0'}`}>
                     <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight font-urbanist"> ASCII Art
                         Converter</h1>
