@@ -31,7 +31,7 @@ const App = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowPreloader(false);
-        }, 4000); // Show preloader for 4 seconds
+        }, 2000); // Show preloader for 4 seconds
         return () => clearTimeout(timer);
     }, []);
 
