@@ -299,10 +299,28 @@ const App = () => {
     // --- RENDER ---
     return (
         <div
-            className="bg-slate-900 min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 text-slate-200 font-sans">
+            className="bg-slate-900 min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 text-slate-200 ">
 
 
             <style>{`
+            // For title font
+            @import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+            .font-urbanist {
+                font-family: "Urbanist", sans-serif;
+            }
+            
+            // For paragraph font
+            @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
+            .font-dmSans {
+                font-family: "DM Sans", sans-serif;
+                }
+                
+            @import url('https://fonts.googleapis.com/css2?family=Bitcount+Prop+Single+Ink:wght@100..900&display=swap');
+            .bitcount-prop-single-ink {
+                font-family: "Bitcount Prop Single Ink", system-ui;
+                }
+                
+                
                 .matrix-container {
                     position: fixed;
                     top: 0;
@@ -397,6 +415,13 @@ const App = () => {
                 .matrix-column:nth-child(4n)::before { content: "\`.-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"; }
                 .matrix-column:nth-child(5n)::before { content: "\`.-':_,^=;><+!rc*/z?sLTv)J7(|Fi{C}fI31tlu[neoZ5Yxjya]2ESwqkP6h9d4VpOGbUAKXHm8RD#$Bg0MNWQ%&@"; }
                 @keyframes fall { 0% { transform: translateY(-10%); opacity: 1; } 100% { transform: translateY(200%); opacity: 0; } }
+                
+                @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+                .animate-popup { animation: fadeInUp 0.5s ease-out forwards; }
+                .delay-1 { animation-delay: 0.2s; }
+                .delay-2 { animation-delay: 0.4s; }
+                .delay-3 { animation-delay: 0.6s; }
+                
                 @media (max-width: 768px) { .matrix-column { font-size: 14px; line-height: 16px; width: 18px; } }
                 @media (max-width: 480px) { .matrix-column { font-size: 12px; line-height: 14px; width: 15px; } }
             `}</style>
@@ -424,15 +449,15 @@ const App = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
                     <div
                         className="bg-slate-800 rounded-lg p-8 max-w-sm text-center shadow-2xl border border-slate-700">
-                        <h3 className="text-xl font-bold text-white mb-4">Performance Warning</h3>
-                        <p className="text-slate-300 mb-6">
+                        <h3 className="text-xl font-bold text-white mb-4 font-dmSans">Performance Warning</h3>
+                        <p className="text-slate-300 mb-6 font-dmSans">
                             "Real Colors" mode can be slow and cause lag, especially with the live camera. Do you want
                             to proceed?
                         </p>
                         <div className="flex justify-center gap-4">
                             <button
                                 onClick={() => setShowWarning(false)}
-                                className="px-6 py-2 bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-500 transition-colors"
+                                className="px-6 py-2 bg-slate-600 text-white font-semibold rounded-lg hover:bg-slate-500 transition-colors font-dmSans"
                             >
                                 Cancel
                             </button>
@@ -441,7 +466,7 @@ const App = () => {
                                     setUseRealColors(true);
                                     setShowWarning(false);
                                 }}
-                                className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-colors"
+                                className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-500 transition-colors font-dmSans"
                             >
                                 Proceed
                             </button>
@@ -451,36 +476,36 @@ const App = () => {
             )}
 
             <div className="w-full max-w-6xl mx-auto">
-                <header className="text-center mb-8">
-                    <h1 className="text-4xl sm:text-5xl font-bold text-white tracking-tight">Image to ASCII Art
+                <header className={`text-center mb-8 ${!showPreloader ? 'animate-popup delay-1' : 'opacity-0'}`}>
+                    <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight font-urbanist"> ASCII Art
                         Converter</h1>
-                    <p className="text-slate-400 mt-2 text-lg">Upload an image or use your camera for a real-time
+                    <p className="text-slate-400 mt-2 text-lg font-bold bitcount-prop-single-ink">Upload an image or use your camera for a real-time
                         conversion.</p>
                 </header>
 
                 <main>
                     <div
-                        className="bg-slate-800/50 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700 backdrop-blur-sm text-center">
+                        className={`bg-slate-800/50 p-6 sm:p-8 rounded-2xl shadow-2xl border border-slate-700 backdrop-blur-sm text-center ${!showPreloader ? 'animate-popup delay-2' : 'opacity-0'}`}>
                         <div className="flex justify-center items-center gap-4">
                             <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageChange}
                                    className="hidden"/>
 
                             <button onClick={handleUploadClick} disabled={isLoading}
-                                    className="relative inline-flex items-center justify-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-xl shadow-md hover:bg-indigo-400 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 disabled:bg-slate-500 disabled:cursor-not-allowed">
+                                    className="relative inline-flex items-center justify-center px-6 py-3 bg-indigo-600 text-white  font-semibold font-dmSans rounded-xl shadow-md hover:bg-indigo-400 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-opacity-75 disabled:bg-slate-500 disabled:cursor-not-allowed">
                                 {isLoading ? 'Processing...' : 'Upload Image'}
                             </button>
 
                             {!isCameraOn ? (
                                 <button onClick={startCamera}
-                                        className="relative inline-flex items-center justify-center px-6 py-3 bg-teal-600 text-white font-semibold rounded-xl shadow-md hover:bg-teal-400 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75">Use
+                                        className="relative inline-flex items-center justify-center px-6 py-3 bg-teal-600 text-white font-dmSans font-semibold rounded-xl shadow-md hover:bg-teal-400 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-opacity-75">Use
                                     Camera</button>
                             ) : (
                                 <button onClick={stopCamera}
-                                        className="relative inline-flex items-center justify-center px-6 py-3 bg-red-600 text-white font-semibold rounded-xl shadow-md hover:bg-red-400 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Stop
+                                        className="relative inline-flex items-center justify-center px-6 py-3 bg-red-600 text-white font-dmSans font-semibold rounded-xl shadow-md hover:bg-red-400 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-opacity-75">Stop
                                     Camera</button>
                             )}
                         </div>
-                        <div className="flex items-center justify-center mt-4 gap-3">
+                        <div className="flex items-center justify-center mt-4 gap-3 font-dmSans">
                             <span
                                 className={`text-sm font-medium transition-colors ${!useRealColors ? 'text-white' : 'text-slate-400'}`}>Simple</span>
 
@@ -501,7 +526,7 @@ const App = () => {
                     </div>
 
                     {isLoading && (
-                        <div className="flex justify-center items-center m-4">
+                        <div className="flex justify-center items-center m-4 font-dmSans">
                             {/*//     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-400 mx-auto"></div>*/}
                             {/*//     <p className="mt-4 text-slate-300">Converting your image...</p>*/}
 
@@ -524,13 +549,13 @@ const App = () => {
 
                     )}
 
-                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <div className={`mt-8 grid grid-cols-1 md:grid-cols-2 gap-8 items-start  ${!showPreloader ? 'animate-popup delay-3' : 'opacity-0'}`}>
                         <div className="transition-opacity duration-500">
-                            <h2 className="text-2xl font-semibold mb-4 text-center text-white">{isCameraOn ? 'Camera Feed' : 'Original Image'}</h2>
+                            <h2 className="text-2xl font-semibold mb-4 text-center text-white font-urbanist">{isCameraOn ? 'Camera Feed' : 'Original Image'}</h2>
                             <div
                                 className="bg-slate-800/50 p-4 rounded-xl border border-slate-700 min-h-[300px] flex items-center justify-center">
                                 {!imageSrc && !isCameraOn && (
-                                    <div className="text-center text-slate-500">
+                                    <div className="text-center text-slate-500 font-dmSans">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"
                                              fill="currentColor" className="bi bi-image mx-auto mb-4"
                                              viewBox="0 0 16 16">
@@ -538,7 +563,7 @@ const App = () => {
                                             <path
                                                 d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-12zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1h12z"/>
                                         </svg>
-                                        <p>Your image or camera feed will appear here</p>
+                                        <p className="font-dmSans">Your image or camera feed will appear here</p>
                                     </div>
                                 )}
                                 {imageSrc && !isCameraOn && (<img src={imageSrc} alt="Uploaded preview"
@@ -550,7 +575,7 @@ const App = () => {
 
                         <div className="transition-opacity duration-500">
                             <div className="flex items-center justify-center mb-4 gap-4">
-                                <h2 className="text-2xl font-semibold text-white">ASCII Art</h2>
+                                <h2 className="text-2xl font-semibold text-white font-urbanist">ASCII Art</h2>
                                 {asciiArt && imageSrc && !isCameraOn && (<button onClick={handleDownload}
                                                                                  className="px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg shadow-md hover:bg-green-500 transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">Download
                                     .jpg</button>)}
