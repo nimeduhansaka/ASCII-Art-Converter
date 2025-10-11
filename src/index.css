@@ -1,10 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=BBH+Sans+Bartle&display=swap');
-
-
-@theme {
-    --font-bbh: "BBH Sans Bartle", sans-serif;
-}
 
 
 /*For Converting loader*/
