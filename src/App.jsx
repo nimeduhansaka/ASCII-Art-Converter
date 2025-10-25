@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import './index.css';
 
 // Main App Component
@@ -227,39 +227,70 @@ const App = () => {
         return asciiString;
     };
 
-    const convertToAsciiFromImage = (img) => {
-        if (!img) return;
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    // const convertToAsciiFromImage = (img) => {
+    //     if (!img) return;
+    //     const canvas = canvasRef.current;
+    //     const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-        if (!img.width || !img.height) {
-            setError('Could not process image with invalid dimensions.');
-            setIsLoading(false);
-            return;
-        }
+    //     if (!img.width || !img.height) {
+    //         setError('Could not process image with invalid dimensions.');
+    //         setIsLoading(false);
+    //         return;
+    //     }
 
-        const newWidth = img.width;
-        const newHeight = img.height;
+    //     const newWidth = img.width;
+    //     const newHeight = img.height;
 
-        if (newWidth <= 0 || newHeight <= 0) {
-            setError('Resulting image dimensions are too small to process.');
-            setIsLoading(false);
-            return;
-        }
+    //     if (newWidth <= 0 || newHeight <= 0) {
+    //         setError('Resulting image dimensions are too small to process.');
+    //         setIsLoading(false);
+    //         return;
+    //     }
 
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+    //     canvas.width = newWidth;
+    //     canvas.height = newHeight;
+    //     ctx.drawImage(img, 0, 0, newWidth, newHeight);
 
-        setAsciiArt(generateAsciiString(ctx, newWidth, newHeight, useRealColors));
-    };
+    //     setAsciiArt(generateAsciiString(ctx, newWidth, newHeight, useRealColors));
+    // };
+    const convertToAsciiFromImage = useCallback((img) => {
+    if (!img) return;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+    if (!img.width || !img.height) {
+        setError('Could not process image with invalid dimensions.');
+        setIsLoading(false);
+        return;
+    }
+
+    const newWidth = img.width;
+    const newHeight = img.height;
+
+    if (newWidth <= 0 || newHeight <= 0) {
+        setError('Resulting image dimensions are too small to process.');
+        setIsLoading(false);
+        return;
+    }
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+    ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+    setAsciiArt(generateAsciiString(ctx, newWidth, newHeight, useRealColors));
+}, [useRealColors]);
+
 
     // Re-process image if color mode changes
+    // useEffect(() => {
+    //     if (originalImageRef.current && !isCameraOn) {
+    //         convertToAsciiFromImage(originalImageRef.current);
+    //     }
+    // }, [useRealColors, isCameraOn]);
     useEffect(() => {
-        if (originalImageRef.current && !isCameraOn) {
-            convertToAsciiFromImage(originalImageRef.current);
-        }
-    }, [useRealColors, isCameraOn]);
+    if (originalImageRef.current && !isCameraOn) {
+        convertToAsciiFromImage(originalImageRef.current);
+    }
+}, [convertToAsciiFromImage, isCameraOn]);
 
     const asciiRenderLoop = () => {
         if (!videoRef.current || !canvasRef.current || videoRef.current.paused || videoRef.current.ended) return;
