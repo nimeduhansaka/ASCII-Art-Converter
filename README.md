@@ -1,21 +1,59 @@
-<<<<<<< HEAD
 # ASCII-Art-Converter
-A lightweight script that transforms your favorite images (JPG, PNG, etc.) into text-based ASCII art. Perfect for spicing up your terminal or creative coding projects.
-=======
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight, modern web app that converts images (upload) or live webcam feed into ASCII art.  
+Supports color or monochrome output, downloadable ASCII results, and real-time conversion from your webcam.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🔧 Features
+- ✅ Upload an image (JPG, PNG, etc.) and convert it to ASCII art  
+- 🎥 Real-time ASCII conversion using your webcam (via getUserMedia)  
+- 🌈 Color **or** monochrome output modes  
+- ⬇️ Download converted ASCII as:
+  - `.txt` (plain text)  
+  - `.html` (with colors preserved)  
+  - `.png` snapshot image of the ASCII rendering  
+- ⚙️ Adjustable parameters: character set, density/scale, contrast, invert, line height  
+- 🖥️ Client-side only — no server backend required (aside from hosting)  
+- ♿ Responsive UI and accessible keyboard controls
 
-## React Compiler
+---
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 📺 Demo / Live
+> https://nimeduhansaka.github.io/ASCII-Art-Converter/  
+Visit this link to try the live version of the project.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
->>>>>>> 0fe4174 (Created ASCII View Generator)
+## 🧰 Tech Stack
+- Frontend: React + Vite (with Tailwind CSS)  
+- Canvas API for image processing and rendering ASCII characters  
+- getUserMedia API for webcam streaming  
+- Optional: Web Workers for heavy image → ASCII conversion off the main thread  
+- Export logic for HTML/PNG formats via browser APIs
+
+---
+
+## 🧠 How It Works (Overview)
+1. The input (image upload or video frame) is drawn to a hidden `<canvas>` component, then sampled pixel-by-pixel.  
+2. For each sampled pixel, its luminance (and color if enabled) is mapped to a character in the chosen character set.  
+3. The resulting characters are rendered in a `<pre>` block (or canvas) to preserve spacing and layout.  
+4. When “Download” is requested:
+   - `.txt` export outputs the plain ASCII characters  
+   - `.html` export wraps characters in `<span style="color:…">` so colored ASCII is preserved  
+   - `.png` export draws the ASCII rendering into a new canvas and converts it via `canvas.toDataURL()` for download
+
+---
+
+## 🚀 Getting Started (Local Development)
+```bash
+# 1. Clone the repository
+git clone https://github.com/nimeduhansaka/ASCII-Art-Converter.git
+cd ASCII-Art-Converter
+
+# 2. Install dependencies
+npm install
+
+# 3. Run development server
+npm run dev
+# Open http://localhost:5173 (or the URL printed in your terminal)
