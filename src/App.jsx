@@ -7,6 +7,8 @@ import Controls from './components/Controls';
 import ImagePreview from './components/ImagePreview';
 import AsciiDisplay from './components/AsciiDisplay';
 import WarningModal from './components/WarningModal';
+import FooterSection from './components/FooterSection';
+import BuyMeCoffeeWidget from './components/BuyMeCoffeeWidget';
 
 // Main App Component
 const App = () => {
@@ -305,7 +307,7 @@ const App = () => {
 
     // --- RENDER ---
     return (
-        <div className="bg-black min-h-screen w-full flex flex-col items-center justify-center p-4 sm:p-6 text-neutral-200">
+        <div className="bg-black min-h-screen w-full flex flex-col items-center justify-center text-neutral-200">
             <MatrixBackground showPreloader={showPreloader} />
             <WarningModal
                 showWarning={showWarning}
@@ -313,7 +315,7 @@ const App = () => {
                 setUseRealColors={setUseRealColors}
             />
 
-            <div className="w-full max-w-6xl mx-auto mt-2 relative z-10">
+            <div className="w-full max-w-6xl mx-auto mt-2 relative z-10 p-4 sm:p-6">
                 <Header showPreloader={showPreloader} />
 
                 <main>
@@ -353,6 +355,9 @@ const App = () => {
                 </main>
             </div>
             <canvas ref={canvasRef} className="hidden"></canvas>
+
+            <BuyMeCoffeeWidget/>
+            <FooterSection/>
         </div>
     );
 };
